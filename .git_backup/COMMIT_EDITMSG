@@ -1,0 +1,7 @@
+1. Executed git init command, .git directory created.
+
+2. Executed create-react-app or similar scaffolding command, generated basic skeleton of client/ directory.
+
+3. Executed backend framework initialization command, generated basic structure of server/ directory.
+
+4. Created demo/ directory for storing demo and proof-of-concept code.
