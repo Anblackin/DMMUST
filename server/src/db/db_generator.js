@@ -68,17 +68,17 @@ Visitor.belongsTo(Building)
 const { hash } = require("../utils/bcypt")
 async function createDefaultData() {
   // 添加院系与专业
-  FACULTY_MAJOR_DATA.map(async item => {
+  for (const item of FACULTY_MAJOR_DATA) {
     const faculty = await Faculty.create({
       name: item.faculty
     })
-    item.majors.map(async m => {
+    for (const m of item.majors) {
       await Major.create({
         name: m,
         facultyId: faculty.id
       })
-    })
-  })
+    }
+  }
 
   // 创建一个新用户
   const user = await User.create({
