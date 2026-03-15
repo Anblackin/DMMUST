@@ -1,0 +1,54 @@
+// base color - 使用学校系统配色
+// 教师主题色 - 蓝色
+$teacher-blue: #2F509A;
+$teacher-blue-hover: #3b64c1;
+
+// 学生主题色 - 绿色
+$student-green: #27975B;
+$student-green-hover: #2eb36b;
+
+// 通用颜色
+$blue: $teacher-blue;
+$light-blue: #3b64c1;
+$red: #FD3647;
+$pink: #e65d6e;
+$green: $student-green;
+$tiffany: #4ab7bd;
+$yellow: #f2d155;
+$panGreen: #64c828;
+
+// 功能色
+$success-color: #67C23A;
+$warning-color: #E6A23C;
+$danger-color: #F56C6C;
+$info-color: #909399;
+
+// sidebar - 白色主题
+$menuText: #606266;
+$menuActiveText: $teacher-blue;
+$subMenuActiveText: $teacher-blue;
+
+$menuBg: #ffffff;
+$menuHover: #f5f7fa;
+
+$subMenuBg: #ffffff;
+$subMenuHover: #f5f7fa;
+
+$sideBarWidth: 260px;
+
+$font-color-first: #303133;
+$font-color-normal: #606266;
+$font-color-second: #909399;
+
+// the :export directive is the magic sauce for webpack
+// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
+:export {
+  menuText: $menuText;
+  menuActiveText: $menuActiveText;
+  subMenuActiveText: $subMenuActiveText;
+  menuBg: $menuBg;
+  menuHover: $menuHover;
+  subMenuBg: $subMenuBg;
+  subMenuHover: $subMenuHover;
+  sideBarWidth: $sideBarWidth;
+}
