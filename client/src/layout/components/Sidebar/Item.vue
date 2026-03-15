@@ -1,0 +1,26 @@
+<script>
+export default {
+  name: 'MenuItem',
+  functional: true,
+  props: {
+    icon: {
+      type: String,
+      default: ''
+    },
+    title: {
+      type: String,
+      default: ''
+    }
+  },
+  render(h, context) {
+    const { title } = context.props
+    const vnodes = []
+
+    // 只显示标题，不显示图标
+    if (title) {
+      vnodes.push(<span slot="title">{title}</span>)
+    }
+    return vnodes
+  }
+}
+</script>
