@@ -11,8 +11,21 @@ const {
   BuildingController
 } = require("../controller")
 const utils = require("../utils")
+const { runAutoAssignRooms } = require("../service/room_auto_assign_service")
+const { getRoomCompatibilityReport } = require("../service/room_compat_report_service")
 
 const router = new Router()
+
+const ROOMMATE_QUESTIONNAIRE_KEYS = [
+  "sleep_habit",
+  "clean_level",
+  "study_habit",
+  "noise_tolerance",
+  "social_preference",
+  "wake_up_time",
+  "sleep_time",
+  "hobbies"
+]
 
 router.post("/register", async ctx => {
   let { account, password } = ctx.request.body
@@ -81,6 +94,15 @@ router.post("/updateInfo", async ctx => {
     userId = reqBody.userId
   }
   const user = await User.findOne({ where: { id: userId } })
+  const questionnaireLocked = !!user.roommate_questionnaire_locked
+  const triedQuestionnaireUpdate = ROOMMATE_QUESTIONNAIRE_KEYS.some(
+    k => ![undefined, null, ""].includes(reqBody[k])
+  )
+
+  if (questionnaireLocked) {
+    ROOMMATE_QUESTIONNAIRE_KEYS.forEach(k => delete reqBody[k])
+  }
+
   for (let key in reqBody) {
     if (
       Object.hasOwnProperty.call(user.toJSON(), key) &&
@@ -92,6 +114,17 @@ router.post("/updateInfo", async ctx => {
   if (reqBody.password) {
     user.password = bcypt.hash(reqBody.password)
   }
+
+  if (!questionnaireLocked && triedQuestionnaireUpdate) {
+    const anyQuestionnaireSaved = ROOMMATE_QUESTIONNAIRE_KEYS.some(k => {
+      const v = user[k]
+      return v != null && String(v).trim() !== ""
+    })
+    if (anyQuestionnaireSaved) {
+      user.roommate_questionnaire_locked = true
+    }
+  }
+
   ctx.body = new ResBody({ data: await user.save() })
 })
 
@@ -177,6 +210,23 @@ router.get("/getAdminTableData", async ctx => {
     include: [{ model: Building }]
   })
   ctx.body = new ResBody({ data: { admins, total: admins.length } })
+})
+
+router.post("/autoAssignRooms", async ctx => {
+  if (ctx.state.user.role !== "superAdmin") {
+    throw new Error("403-仅超级管理员可执行批量分宿")
+  }
+  const data = await runAutoAssignRooms(ctx.request.body || {})
+  ctx.body = new ResBody({ data })
+})
+
+router.get("/roomCompatibilityReport", async ctx => {
+  if (ctx.state.user.role !== "superAdmin") {
+    throw new Error("403-仅超级管理员可查看宿舍匹配合适度")
+  }
+  const { buildingId } = ctx.request.query
+  const data = await getRoomCompatibilityReport({ buildingId })
+  ctx.body = new ResBody({ data })
 })
 
 router.get("/getStudentInfoByIdOrAccount", async ctx => {

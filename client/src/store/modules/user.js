@@ -94,8 +94,19 @@ const actions = {
         commit('SET_ROOM', room)
         commit('SET_FLOOR', floor)
         commit('SET_BUILDING', building)
-        if (data.role === 'student' && !room) {
-          commit('SET_NEWUSER', true)
+        if (data.role === 'student') {
+          if (room) {
+            commit('SET_NEWUSER', false)
+          } else {
+            const profileDone =
+              data.majorId &&
+              data.facultyId &&
+              data.name &&
+              String(data.name).trim() !== '' &&
+              data.phone &&
+              String(data.phone).trim() !== ''
+            commit('SET_NEWUSER', !profileDone)
+          }
         } else {
           commit('SET_NEWUSER', false)
         }

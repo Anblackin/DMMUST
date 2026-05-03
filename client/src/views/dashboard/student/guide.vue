@@ -22,10 +22,11 @@
       <el-form-item label="联系电话" prop="phone" :required="true">
         <el-input v-model="form.phone"></el-input>
       </el-form-item>
-      <el-form-item label="选择想要入住的宿舍" prop="roomId" :required="true">
-        <room-selector v-model="form.roomId"></room-selector>
-      </el-form-item>
     </el-form>
+    <student-roommate-info
+      ref="roommateQuestionnaire"
+      :show-submit-button="false"
+    />
     <!-- Form -->
     <div class="btn-wrapper">
       <el-button type="primary" @click="handleSubmitClick">提交信息</el-button>
@@ -34,15 +35,15 @@
 </template>
 
 <script>
-import RoomSelector from '@/components/RoomSelector/index'
 import MajorSelector from '@/components/MajorSelector'
+import StudentRoommateInfo from '@/views/student/info.vue'
 import { updateUserInfo } from '@/api/user'
 
 export default {
   name: 'student-guide',
   components: {
-    RoomSelector,
-    MajorSelector
+    MajorSelector,
+    StudentRoommateInfo
   },
   data() {
     return {
@@ -50,11 +51,8 @@ export default {
         name: '',
         sex: 0,
         phone: '',
-        roomId: null,
         facultyWithMajor: null
-      },
-      buildingId: null,
-      floorId: null
+      }
     }
   },
   methods: {
@@ -74,7 +72,7 @@ export default {
               this.submitFormData().then(() => {
                 this.$message({
                   type: 'success',
-                  message: '加入宿舍成功'
+                  message: '信息提交成功'
                 })
               })
             })
@@ -92,14 +90,17 @@ export default {
     },
     submitFormData() {
       return new Promise((resolve, reject) => {
+        const roommate = this.$refs.roommateQuestionnaire
+          ? this.$refs.roommateQuestionnaire.getPayload()
+          : {}
         updateUserInfo({
           name: this.form.name,
           sex: this.form.sex,
           phone: this.form.phone,
-          roomId: this.form.roomId,
           facultyId: this.form.facultyWithMajor[0],
           majorId: this.form.facultyWithMajor[1],
-          checkTime: new Date().valueOf()
+          checkTime: new Date().valueOf(),
+          ...roommate
         })
           .then(() => {
             this.$store.dispatch('user/getInfo')

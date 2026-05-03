@@ -1,5 +1,10 @@
 <template>
   <div id="student-info">
+    <div class="wrapper questionnaire-wrapper">
+      <el-card shadow="hover">
+        <student-roommate-info />
+      </el-card>
+    </div>
     <h1 class="main-title">宿舍概览</h1>
     <div class="wrapper">
       <PanelGroup></PanelGroup>
@@ -19,6 +24,7 @@
 import PanelGroup from './components/PanelGroup'
 import StudentList from './components/StudentList'
 import Evaluates from './components/Evaluates'
+import StudentRoommateInfo from '@/views/student/info.vue'
 import { getStudents } from '@/api/user'
 import { getEvaluates } from '@/api/evaluate'
 export default {
@@ -26,7 +32,8 @@ export default {
   components: {
     PanelGroup,
     StudentList,
-    Evaluates
+    Evaluates,
+    StudentRoommateInfo
   },
   data() {
     return {
@@ -53,6 +60,10 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
   margin: 30px 0;
+}
+
+.questionnaire-wrapper :deep(.el-card__body) {
+  padding: 24px;
 }
 
 .main-title {
