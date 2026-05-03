@@ -16,7 +16,7 @@ Visitor.init(
       allowNull: false
     },
     idNumber: {
-      comment: "访客身份证号",
+      comment: "访客学生号",
       type: DataTypes.STRING,
       allowNull: false
     },
