@@ -161,6 +161,42 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/dormitoryAssign',
+    component: Layout,
+    meta: {
+      roles: ['superAdmin']
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/super-admin/dormitory-assign.vue'),
+        name: 'dormitoryAssign',
+        meta: {
+          title: '批量分宿',
+          icon: 'table'
+        }
+      }
+    ]
+  },
+  {
+    path: '/roomCompatibility',
+    component: Layout,
+    meta: {
+      roles: ['superAdmin']
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/super-admin/room-compatibility.vue'),
+        name: 'roomCompatibility',
+        meta: {
+          title: '宿舍匹配合适度',
+          icon: 'chart'
+        }
+      }
+    ]
+  },
+  {
     path: '/floorManage',
     component: Layout,
     meta: {

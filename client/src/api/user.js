@@ -23,32 +23,7 @@ export function getInfo() {
   })
 }
 
-export function updateUserInfo({
-  /**
-   * 指定修改用户的 ID，只有超级管理员可以传,
-   * 否则只修改当前用户信息
-   */
-  userId = null,
-  name = null,
-  sex = null,
-  phone = null,
-  roomId = null,
-  checkTime = null,
-  password = null,
-  facultyId = null,
-  majorId = null
-}) {
-  const data = {
-    userId,
-    name,
-    sex,
-    phone,
-    roomId,
-    checkTime,
-    password,
-    facultyId,
-    majorId
-  }
+export function updateUserInfo(data = {}) {
   return request({
     url: '/user/updateInfo',
     method: 'post',
@@ -107,5 +82,23 @@ export function getStudentInfoByIdOrAccount({ type = 'id', value }) {
     url: '/user/getStudentInfoByIdOrAccount',
     method: 'get',
     params: { type, value }
+  })
+}
+
+/** 批量自动分宿（仅超级管理员） */
+export function autoAssignRooms(data) {
+  return request({
+    url: '/user/autoAssignRooms',
+    method: 'post',
+    data
+  })
+}
+
+/** 已入住宿舍的舍友匹配合适度（仅超级管理员） */
+export function getRoomCompatibilityReport(params) {
+  return request({
+    url: '/user/roomCompatibilityReport',
+    method: 'get',
+    params
   })
 }
