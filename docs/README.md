@@ -11,6 +11,7 @@
 - `Earn-Value-and-Decision-Tree.md`：挣值分析与决策树，负责人为项目经理
 - `Leangoo-Storyboard.md`：Leangoo 故事板内容，负责人为产品经理
 - `GitHub-Timeline.md`：GitHub 时间线说明，负责人为运维工程师
+- `Presentation-Config-Change-Management.md`：配置管理与变更管理演示材料，负责人为运维工程师
 
 ## 使用说明
 
