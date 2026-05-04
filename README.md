@@ -14,6 +14,7 @@
 
 ![](./demo/screen-shot_06.png)
 
+![](./demo/screen-shot_07.png)
 
 # 1. 需求分析
 
